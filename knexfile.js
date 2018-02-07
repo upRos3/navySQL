@@ -17,6 +17,6 @@ knex.select('first_name', 'last_name', 'birthdate').from('famous_people')
     if (err) {
       return console.error(err);
     }
-  console.log(`Found ${res.length} person(s) by the name '${args[2]}' \n - ${res[0].first_name} ${res[0].last_name}, born '${res[0].birthdate.getDate()}-${res[0].birthdate.getMonth()}-${res[0].birthdate.getFullYear()}'`);
+  console.log(`Found ${res.length} person(s) by the name '${args[2]}' \n - ${res[0].first_name} ${res[0].last_name}, born '${res[0].birthdate.getDate()}-${res[0].birthdate.getMonth()+1}-${res[0].birthdate.getFullYear()}'`);
   knex.destroy();
 });
