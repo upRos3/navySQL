@@ -8,9 +8,15 @@ const knex = require('knex')({
   }
 });
 
-let args = process.argv;
+const args = process.argv;
 
-knex('famous_people').where('first_name', args[2]).orWhere('last_name', args[2]).then(function(res) {
+knex.select('first_name', 'last_name', 'birthdate').from('famous_people')
+  .where('first_name', args[2])
+  .orWhere('last_name', args[2])
+  .asCallback(function(err, res) {
+    if (err) {
+      return console.error(err);
+    }
   console.log(`Found ${res.length} person(s) by the name '${args[2]}' \n - ${res[0].first_name} ${res[0].last_name}, born '${res[0].birthdate.getDate()}-${res[0].birthdate.getMonth()}-${res[0].birthdate.getFullYear()}'`);
   knex.destroy();
 });
