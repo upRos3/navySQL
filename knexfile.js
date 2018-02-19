@@ -1,22 +1,48 @@
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host : '127.0.0.1',
-    user : 'development',
-    password : 'development',
-    database : 'vagrant'
-  }
-});
+const settings = require("./settings");
 
-const args = process.argv;
+module.exports = {
 
-knex.select('first_name', 'last_name', 'birthdate').from('famous_people')
-  .where('first_name', args[2])
-  .orWhere('last_name', args[2])
-  .asCallback(function(err, res) {
-    if (err) {
-      return console.error(err);
+  development: {
+    client: 'pg',
+    connection: {
+      filename: './dev.pg',
+      host : settings.hostname,
+      user : settings.user,
+      password : settings.password,
+      database : settings.database
     }
-  console.log(`Found ${res.length} person(s) by the name '${args[2]}' \n - ${res[0].first_name} ${res[0].last_name}, born '${res[0].birthdate.getDate()}-${res[0].birthdate.getMonth()+1}-${res[0].birthdate.getFullYear()}'`);
-  knex.destroy();
-});
+  },
+
+  staging: {
+    client: 'postgresql',
+    connection: {
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
+  production: {
+    client: 'postgresql',
+    connection: {
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  }
+
+};
