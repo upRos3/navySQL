@@ -1,10 +1,12 @@
+const pg = require('pg');
+const settings = require("./settings");
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host : 'http://localhost',
-    user : 'development',
-    password : 'development',
-    database : 'vagrant'
+    host : settings.hostname,
+    user : settings.user,
+    password : settings.password,
+    database : settings.database
   }
 });
 
